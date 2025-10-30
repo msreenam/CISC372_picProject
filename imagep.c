@@ -1,7 +1,3 @@
-// image_pthreads.c
-// Compile: gcc -o image_pthreads image_pthreads.c -lm -lpthread
-// Run: ./image_pthreads pic1.jpg edge
-
 #include <stdio.h>
 #include <stdint.h>
 #include <time.h>
@@ -137,7 +133,7 @@ int main(int argc,char** argv){
         current_row = end;
         td[i].src = &srcImage;
         td[i].dst = &dstImage;
-        td[i].kernel = algorithms[type];
+        memcpy(td[i].kernel, algorithms[type], sizeof(Matrix));
         td[i].row_start = start;
         td[i].row_end = end;
         if (pthread_create(&threads[i], NULL, thread_convolute, &td[i]) != 0){
