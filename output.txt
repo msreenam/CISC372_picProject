@@ -1,0 +1,11 @@
+Script started on 2025-10-30 20:01:26-04:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="122" LINES="9"]
+mnambiar@cisc372:~/cisc372/image/CISC372_picProject$ gcc -o imagep imagep.c -lm -lpthread
+mnambiar@cisc372:~/cisc372/image/CISC372_picProject$ gcc -o imagem imagem.c -lm -fopenmp
+mnambiar@cisc372:~/cisc372/image/CISC372_picProject$ ./imagep pic1.jpg edge
+pthreads version done
+mnambiar@cisc372:~/cisc372/image/CISC372_picProject$ ./imagem pic1.jpg edge
+openmp version done
+mnambiar@cisc372:~/cisc372/image/CISC372_picProject$ exit
+exit
+
+Script done on 2025-10-30 20:02:11-04:00 [COMMAND_EXIT_CODE="0"]
