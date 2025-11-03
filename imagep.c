@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include "image.h"
+#include <time.h>
+
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -118,6 +120,9 @@ int main(int argc,char** argv){
         return -1;
     }
 
+    struct timespec start, end;
+    clock_gettime(CLOCK_MONOTONIC, &start);
+
     // Number of threads
     int num_threads = 4; 
     if (num_threads < 1) num_threads = 1;
@@ -146,12 +151,15 @@ int main(int argc,char** argv){
         pthread_join(threads[i], NULL);
     }
 
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    double elapsed = end.tv_sec - start.tv_sec + (end.tv_nsec - start.tv_nsec)/1e9;
+    printf("Processing time: %.4f seconds\n", elapsed);
+
     stbi_write_png("output.png", dstImage.width, dstImage.height, dstImage.bpp, dstImage.data, dstImage.bpp*dstImage.width);
 
     free(threads);
     free(td);
     stbi_image_free(srcImage.data);
     free(dstImage.data);
-    printf("pthreads version done\n");
     return 0;
 }

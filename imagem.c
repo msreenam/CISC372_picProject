@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "image.h"
+#include <time.h>
+
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -94,6 +96,9 @@ int main(int argc,char** argv){
         return -1;
     }
 
+    struct timespec start, end;
+    clock_gettime(CLOCK_MONOTONIC, &start);
+
     // OpenMP
     #pragma omp parallel for schedule(static)
     for (int row = 0; row < srcImage.height; ++row){
@@ -105,10 +110,13 @@ int main(int argc,char** argv){
         }
     }
 
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    double elapsed = end.tv_sec - start.tv_sec + (end.tv_nsec - start.tv_nsec)/1e9;
+    printf("Processing time: %.4f seconds\n", elapsed);
+
     stbi_write_png("output.png", dstImage.width, dstImage.height, dstImage.bpp, dstImage.data, dstImage.bpp*dstImage.width);
 
     stbi_image_free(srcImage.data);
     free(dstImage.data);
-    printf("openmp version done\n");
     return 0;
 }
