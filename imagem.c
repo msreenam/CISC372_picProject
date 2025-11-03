@@ -76,6 +76,9 @@ enum KernelTypes GetKernelType(char* type){
 //main:
 //argv is expected to take 2 arguments.  First is the source file name (can be jpg, png, bmp, tga).  Second is the lower case name of the algorithm.
 int main(int argc,char** argv){
+    struct timespec start, end;
+    clock_gettime(CLOCK_MONOTONIC, &start);
+    
     if (argc!=3) return Usage();
     char* fileName=argv[1];
     enum KernelTypes type=GetKernelType(argv[2]);
@@ -97,8 +100,6 @@ int main(int argc,char** argv){
         return -1;
     }
 
-    struct timespec start, end;
-    clock_gettime(CLOCK_MONOTONIC, &start);
 
     // OpenMP
     #pragma omp parallel for schedule(static)
